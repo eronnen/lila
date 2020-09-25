@@ -17,7 +17,7 @@ object home {
     views.html.base.layout(
       title = "",
       fullTitle = Some {
-        s"lichess.${if (netConfig.isProd) "org" else "dev"} • ${trans.freeOnlineChess.txt()}"
+        s"lichess.${if (true) "org" else "dev"} • ${trans.freeOnlineChess.txt()}"
       },
       moreJs = frag(
         jsModule("lobby"),
@@ -167,7 +167,7 @@ object home {
             views.html.forum.post recent forumRecent
           )
         ),
-        bits.lastPosts(lastPost),
+        //bits.lastPosts(lastPost),
         div(cls := "lobby__support")(
           a(href := routes.Plan.index)(
             iconTag(patronIconChar),

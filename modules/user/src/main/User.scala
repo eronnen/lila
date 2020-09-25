@@ -197,7 +197,7 @@ object User {
   ) {
     def id                     = _id
     def isKid                  = ~kid
-    def isTroll                = marks.exists(_.troll)
+    def isTroll                = marks.exists(_.troll) && false
     def isVerified             = roles.exists(_ contains "ROLE_VERIFIED")
     def isApiHog               = roles.exists(_ contains "ROLE_API_HOG")
     def isDaysOld(days: Int)   = createdAt isBefore DateTime.now.minusDays(days)

@@ -298,8 +298,9 @@ case object Perfs {
       antichess: List[User.LightPerf],
       atomic: List[User.LightPerf],
       horde: List[User.LightPerf],
-      racingKings: List[User.LightPerf]
+      racingKings: List[User.LightPerf],
+      correspondence: List[User.LightPerf]
   )
 
-  val emptyLeaderboards = Leaderboards(Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil)
+  val emptyLeaderboards = Leaderboards(Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil, Nil)
 }

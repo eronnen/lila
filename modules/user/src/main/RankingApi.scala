@@ -63,7 +63,7 @@ final class RankingApi(
   private[user] def topPerf(perfId: Perf.ID, nb: Int): Fu[List[User.LightPerf]] =
     PerfType.id2key(perfId) ?? { perfKey =>
       coll
-        .find($doc("perf" -> perfId, "stable" -> true))
+        .find($doc("perf" -> perfId))
         .sort($doc("rating" -> -1))
         .cursor[Ranking](ReadPreference.secondaryPreferred)
         .list(nb)
@@ -99,6 +99,7 @@ final class RankingApi(
       horde         <- topPerf(PerfType.Horde.id, nb)
       racingKings   <- topPerf(PerfType.RacingKings.id, nb)
       crazyhouse    <- topPerf(PerfType.Crazyhouse.id, nb)
+      correspondence <- topPerf(PerfType.Correspondence.id, nb)
     } yield Perfs.Leaderboards(
       ultraBullet = ultraBullet,
       bullet = bullet,
@@ -112,7 +113,8 @@ final class RankingApi(
       antichess = antichess,
       atomic = atomic,
       horde = horde,
-      racingKings = racingKings
+      racingKings = racingKings,
+      correspondence = correspondence
     )
 
   object weeklyStableRanking {
@@ -140,7 +142,7 @@ final class RankingApi(
     private def compute(pt: PerfType): Fu[Map[User.ID, Rank]] =
       coll
         .find(
-          $doc("perf" -> pt.id, "stable" -> true),
+          $doc("perf" -> pt.id),
           $doc("_id" -> true).some
         )
         .sort($doc("rating" -> -1))

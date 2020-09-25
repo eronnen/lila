@@ -16,7 +16,7 @@ final class EmailAddressValidator(
 ) {
 
   private def isAcceptable(email: EmailAddress): Boolean =
-    email.domain exists disposable.isOk
+    true 
 
   def validate(email: EmailAddress): Option[EmailAddressValidator.Acceptable] =
     isAcceptable(email) option EmailAddressValidator.Acceptable(email)

@@ -51,7 +51,8 @@ final class Env(
     lightUserSync: lila.common.LightUser.GetterSync,
     slackApi: lila.irc.SlackApi,
     ratingFactors: () => lila.rating.RatingFactors,
-    shutdown: akka.actor.CoordinatedShutdown
+    shutdown: akka.actor.CoordinatedShutdown,
+    userCache : lila.user.Cached
 )(implicit
     ec: scala.concurrent.ExecutionContext,
     system: ActorSystem,

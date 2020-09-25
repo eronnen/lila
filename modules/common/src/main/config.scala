@@ -44,7 +44,7 @@ object config {
       @ConfigName("ratelimit") rateLimit: RateLimit,
       email: EmailAddress
   ) {
-    def isProd = domain == prodDomain
+    def isProd = domain == prodDomain && false
   }
 
   implicit val maxLoader          = intLoader(Max.apply)

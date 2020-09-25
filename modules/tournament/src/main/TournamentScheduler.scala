@@ -374,7 +374,7 @@ Thank you all, you rock!"""
           List(1300, 1500, 1700, 2000).zipWithIndex.flatMap { case (rating, hourDelay) =>
             val perf = Schedule.Speed toPerfType speed
             val conditions = Condition.All(
-              nbRatedGame = Condition.NbRatedGame(perf.some, 20).some,
+              nbRatedGame = Condition.NbRatedGame(perf.some, 0).some,
               maxRating = Condition.MaxRating(perf, rating).some,
               minRating = none,
               titled = none,

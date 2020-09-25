@@ -6,7 +6,7 @@ import lila.common.{ Bus, Uptime }
 import lila.game.actorApi.{ AbortedBy, FinishGame }
 import lila.game.{ Game, GameRepo, Pov, RatingDiffs }
 import lila.playban.PlaybanApi
-import lila.user.{ User, UserRepo }
+import lila.user.{ User, UserRepo, Cached }
 import lila.i18n.{ I18nKeys => trans, defaultLang }
 
 final private class Finisher(
@@ -18,7 +18,8 @@ final private class Finisher(
     notifier: RoundNotifier,
     crosstableApi: lila.game.CrosstableApi,
     getSocketStatus: Game => Fu[actorApi.SocketStatus],
-    recentTvGames: RecentTvGames
+    recentTvGames: RecentTvGames,
+    userCache: Cached
 )(implicit ec: scala.concurrent.ExecutionContext) {
 
   implicit private val chatLang = defaultLang
@@ -154,6 +155,8 @@ final private class Finisher(
     (!finish.isVsSelf && !finish.game.aborted) ?? {
       import cats.implicits._
       (finish.white, finish.black).mapN((_, _)) ?? { case (white, black) =>
+        userCache.topWeekCache invalidate {}.unit
+        userCache.top200Perf invalidate finish.game.variant.id
         crosstableApi.add(finish.game) zip perfsUpdater.save(finish.game, white, black) dmap (_._2)
       } zip
         (finish.white ?? incNbGames(finish.game)) zip

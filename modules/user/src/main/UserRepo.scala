@@ -106,8 +106,7 @@ final class UserRepo(val coll: Coll)(implicit ec: scala.concurrent.ExecutionCont
       .find(
         $doc(
           F.enabled -> true,
-          F.marks $nin List(UserMark.Engine.key, UserMark.Boost.key),
-          "perfs.standard.gl.d" $lt Glicko.provisionalDeviation
+          F.marks $nin List(UserMark.Engine.key, UserMark.Boost.key)
         ) ++ $inIds(ids) ++ botSelect(false)
       )
       .sort($sort desc "perfs.standard.gl.r")
@@ -263,8 +262,6 @@ final class UserRepo(val coll: Coll)(implicit ec: scala.concurrent.ExecutionCont
     $doc(F.marks -> UserMark.Boost.key),
     $doc(F.marks -> UserMark.Troll.key)
   )
-  def stablePerfSelect(perf: String) =
-    $doc(s"perfs.$perf.gl.d" -> $lt(lila.rating.Glicko.provisionalDeviation))
   val patronSelect = $doc(s"${F.plan}.active" -> true)
 
   def sortPerfDesc(perf: String) = $sort desc s"perfs.$perf.gl.r"

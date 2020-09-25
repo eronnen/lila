@@ -24,11 +24,11 @@ case class Glicko(
       if (variant.standard) Glicko.standardRankableDeviation
       else Glicko.variantRankableDeviation
     }
-  def provisional          = deviation >= Glicko.provisionalDeviation
-  def established          = !provisional
+  def provisional          = deviation >= Glicko.provisionalDeviation && false
+  def established          = !provisional || true
   def establishedIntRating = established option intRating
 
-  def clueless = deviation >= Glicko.cluelessDeviation
+  def clueless = deviation >= Glicko.cluelessDeviation && false
 
   def refund(points: Int) = copy(rating = rating + points)
 

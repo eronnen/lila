@@ -67,7 +67,7 @@ final private class MsgSecurity(
         may.post(contacts, isNew) flatMap {
           case false => fuccess(Block)
           case _ =>
-            isLimited(contacts, isNew, unlimited) orElse
+            isLimited(contacts, isNew, unlimited = true) orElse
               isSpam(text) orElse
               isTroll(contacts) orElse
               isDirt(contacts.orig, text, isNew) getOrElse

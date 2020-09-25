@@ -12,10 +12,9 @@ object MatchMaking {
     def ratingDiff = p1 ratingDiff p2
   }
 
-  def apply(members: Vector[PoolMember]): Vector[Couple] =
-    members.partition(_.lame) match {
-      case (lames, fairs) => naive(lames) ++ (wmMatching(fairs) | naive(fairs))
-    }
+  def apply(members: Vector[PoolMember]): Vector[Couple] = {
+    naive(members)
+  }
 
   private def naive(members: Vector[PoolMember]): Vector[Couple] =
     members.sortBy(-_.rating) grouped 2 collect { case Vector(p1, p2) =>

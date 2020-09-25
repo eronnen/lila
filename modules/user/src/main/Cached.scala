@@ -25,7 +25,7 @@ final class Cached(
   implicit private val LightCountBSONHandler = Macros.handler[LightCount]
 
   val top10 = cacheApi.unit[Perfs.Leaderboards] {
-    _.refreshAfterWrite(2 minutes)
+    _.refreshAfterWrite(30 seconds)
       .buildAsyncFuture { _ =>
         rankingApi
           .fetchLeaderboard(10)
@@ -48,7 +48,7 @@ final class Cached(
       }
   }
 
-  private val topWeekCache = mongoCache.unit[List[User.LightPerf]](
+  val topWeekCache = mongoCache.unit[List[User.LightPerf]](
     "user:top:week",
     9 minutes
   ) { loader =>
@@ -80,7 +80,7 @@ final class Cached(
   }
 
   private val top50OnlineCache = cacheApi.unit[List[User]] {
-    _.refreshAfterWrite(1 minute)
+    _.refreshAfterWrite(20 seconds)
       .buildAsyncFuture { _ =>
         userRepo.byIdsSortRatingNoBot(onlineUserIds(), 50)
       }
